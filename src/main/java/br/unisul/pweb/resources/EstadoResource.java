@@ -13,27 +13,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.unisul.pweb.domain.Categoria;
-import br.unisul.pweb.dtos.CategoriaDTO;
-import br.unisul.pweb.services.CategoriaService;
+import br.unisul.pweb.domain.Estado;
+import br.unisul.pweb.dtos.EstadoDTO;
+import br.unisul.pweb.services.EstadoService;
 
 @RestController
-@RequestMapping(value="/categorias")
-public class CategoriaResource {
+@RequestMapping(value="/estados")
+public class EstadoResource {
 
 	@Autowired
-	private CategoriaService service;
+	private EstadoService service;
 
 	//BUSCAR POR ID
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
-	public ResponseEntity<Categoria> find(@PathVariable Integer id){
-		Categoria obj = service.find(id);
+	public ResponseEntity<Estado> find(@PathVariable Integer id){
+		Estado obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
 	//INSERIR
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void>insert(@RequestBody Categoria obj){
+	public ResponseEntity<Void>insert(@RequestBody Estado obj){
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().
 				path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -42,7 +42,7 @@ public class CategoriaResource {
 
 	//ATUALIZAR
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+	public ResponseEntity<Void> update(@RequestBody Estado obj, @PathVariable Integer id){
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
@@ -58,13 +58,13 @@ public class CategoriaResource {
 
 	//Listar todos
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<CategoriaDTO>> findAll() {
-		List<Categoria> lista = service.findAll();
+	public ResponseEntity<List<EstadoDTO>> findAll() {
+		List<Estado> lista = service.findAll();
 		//ou for para percorrer a lista
 		//List<CategoriaDTO> listaDTO = lista.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList()); 
-		List<CategoriaDTO> listaDTO = new ArrayList<CategoriaDTO>();
-		for (Categoria c : lista) {
-			listaDTO.add(new CategoriaDTO(c));
+		List<EstadoDTO> listaDTO = new ArrayList<EstadoDTO>();
+		for (Estado e : lista) {
+			listaDTO.add(new EstadoDTO(e));
 		}
 		return ResponseEntity.ok().body(listaDTO);
 	}
