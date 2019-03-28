@@ -8,41 +8,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 @Entity
-public class Estado implements Serializable{
-
+public class Produto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@Id	//Informa ao banco de dados que se trata de uma ID
-	@GeneratedValue(strategy=GenerationType.IDENTITY)  // Informa que é autoincrement
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String nome;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy="estado")
-	private List<Cidade> cidades  = new ArrayList<>();
+	private Double preco;
 	
-	public Estado() {
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "PRODUTO_CATEGORIA",
+		joinColumns = @JoinColumn(name = "produto_id"),
+		inverseJoinColumns = @JoinColumn(name = "categoria_id")
+	)
+	private List<Categoria> categorias = new ArrayList<>();
+	
+	public Produto() {
 		
 	}
 	
-	
-	public List<Cidade> getCidades() {
-		return cidades;
-	}
-
-	public void setCidades(List<Cidade> cidades) {
-		this.cidades = cidades;
-	}
-
-	public Estado(Integer id, String nome) {
+	public Produto(Integer id, String nome, Double preco) {
+		super();
 		this.id = id;
 		this.nome = nome;
+		this.preco = preco;
 	}
 	
 	public Integer getId() {
@@ -56,6 +56,18 @@ public class Estado implements Serializable{
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	public Double getPreco() {
+		return preco;
+	}
+	public void setPreco(Double preco) {
+		this.preco = preco;
+	}
+	public List<Categoria> getCategorias() {
+		return categorias;
+	}
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
 	}
 
 	@Override
@@ -74,7 +86,7 @@ public class Estado implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Estado other = (Estado) obj;
+		Produto other = (Produto) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -82,5 +94,5 @@ public class Estado implements Serializable{
 			return false;
 		return true;
 	}
-
+	
 }

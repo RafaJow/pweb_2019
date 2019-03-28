@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import br.unisul.pweb.domain.Estado;
 import br.unisul.pweb.repository.EstadoRepository;
 
+
 @Service
 public class EstadoService {
+	
 	@Autowired
 	private EstadoRepository rep;
 
@@ -40,6 +42,6 @@ public class EstadoService {
 
 	//LISTAR TODAS
 	public List<Estado> findAll(){
-		return rep.findAll();
+		return rep.findAllByOrderByNome();
 	}
 }
