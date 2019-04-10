@@ -1,6 +1,7 @@
 package br.unisul.pweb.services;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import br.unisul.pweb.domain.Cidade;
 import br.unisul.pweb.domain.Cliente;
 import br.unisul.pweb.domain.Endereco;
 import br.unisul.pweb.domain.Estado;
+import br.unisul.pweb.domain.ItemPedido;
+import br.unisul.pweb.domain.Pedido;
 import br.unisul.pweb.domain.Produto;
 import br.unisul.pweb.domain.enums.TipoCliente;
 import br.unisul.pweb.repository.CategoriaRepository;
@@ -18,6 +21,8 @@ import br.unisul.pweb.repository.CidadeRepository;
 import br.unisul.pweb.repository.ClienteRepository;
 import br.unisul.pweb.repository.EnderecoRepository;
 import br.unisul.pweb.repository.EstadoRepository;
+import br.unisul.pweb.repository.ItemPedidoRepository;
+import br.unisul.pweb.repository.PedidoRepository;
 import br.unisul.pweb.repository.ProdutoRepository;
 
 @Service
@@ -40,6 +45,13 @@ public class DbService {
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
+	
 	
 	public void inicializaBancoDeDados() throws ParseException {
 
@@ -88,6 +100,8 @@ public class DbService {
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(en1, en2));
 		
+		
+		
 		p1.getCategorias().addAll(Arrays.asList(cat1));
 		p2.getCategorias().addAll(Arrays.asList(cat1,cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
@@ -97,6 +111,26 @@ public class DbService {
 		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1,p2,p3));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, en1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, en2);
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip2));
+		p3.getItens().addAll(Arrays.asList(ip3));
+
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));	
 	}
 
 }
