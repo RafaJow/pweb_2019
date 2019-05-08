@@ -14,6 +14,11 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository rep;
 
+	//BUSCAR POR NOME
+	public List<Categoria> buscaPorNome(String nome){
+		return rep.findDistinctByNomeContainingOrderByNome(nome);
+	}
+	
 	//BUSCAR POR ID
 	public Categoria find (Integer id) {
 		Optional<Categoria> obj = rep.findById(id);
