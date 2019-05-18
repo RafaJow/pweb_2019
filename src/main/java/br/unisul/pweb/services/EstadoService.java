@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.unisul.pweb.domain.Categoria;
 import br.unisul.pweb.domain.Estado;
 import br.unisul.pweb.repository.EstadoRepository;
 
@@ -44,4 +45,9 @@ public class EstadoService {
 	public List<Estado> findAll(){
 		return rep.findAllByOrderByNome();
 	}
+	
+	//BUSCAR POR NOME
+		public List<Estado> buscaPorNome(String nome){
+			return rep.findDistinctByNomeContainingOrderByNome(nome);
+		}
 }

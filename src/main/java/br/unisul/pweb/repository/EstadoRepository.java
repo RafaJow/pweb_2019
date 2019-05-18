@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.unisul.pweb.domain.Categoria;
 import br.unisul.pweb.domain.Estado;
 
 public interface EstadoRepository extends JpaRepository<Estado, Integer> {
@@ -13,4 +14,6 @@ public interface EstadoRepository extends JpaRepository<Estado, Integer> {
 	public List<Estado> findAllByOrderByNome();
 
 	//public List<Estado> findAllByOrderByNome();
+	
+	List<Estado> findDistinctByNomeContainingOrderByNome(String nome);
 }

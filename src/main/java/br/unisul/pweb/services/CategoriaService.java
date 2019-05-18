@@ -47,4 +47,6 @@ public class CategoriaService {
 	public List<Categoria> findAll(){
 		return rep.findAll();
 	}
+	
+	
 }
