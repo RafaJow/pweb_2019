@@ -12,6 +12,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer>{
 	List<Produto> findDistinctByNomeContainingAndCategoriasIn(
 			String nome,
 			List<Categoria> categorias
-	); 
+	);
 
+	
+	
 }
